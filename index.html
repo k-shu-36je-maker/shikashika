@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鳥獣被害対策システム - リアルタイム共有版</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <header>
+        <span>🐗 人吉エリア 鳥獣被害・目撃・罠設置情報</span>
+        <div class="auth-status">
+            <span id="authLabel" style="color: #2ecc71;">🔓 入力・編集モード</span>
+            <button id="loginToggleBtn" class="auth-btn">ログアウト</button>
+        </div>
+    </header>
+
+    <form id="inputForm" class="form-panel">
+        <input type="hidden" id="editId" value="">
+        <div class="form-group">
+            <label for="formType">区分・獣種</label>
+            <select id="formType" required>
+                <optgroup label="鳥獣目撃・被害">
+                    <option value="boar">イノシシ</option>
+                    <option value="deer">ニホンジカ</option>
+                    <option value="monkey">サル</option>
+                    <option value="rabbit">ノウサギ</option>
+                </optgroup>
+                <optgroup label="対策">
+                    <option value="trap">🪤 罠設置</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="form-group" id="trapTypeGroup">
+            <label for="formTrapType">罠の種類</label>
+            <select id="formTrapType" disabled>
+                <option value="">-- 対象外 --</option>
+                <option value="box">箱罠</option>
+                <option value="foot">くくり罠</option>
+                <option value="enclosure">囲い罠</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="formTitle">件名・タイトル</label>
+            <input type="text" id="formTitle" placeholder="例：足跡を発見" required style="width: 140px;">
+        </div>
+        <div class="form-group">
+            <label for="formDate">発生・設置日</label>
+            <input type="date" id="formDate" required>
+        </div>
+        <div class="form-group">
+            <label for="formLocation">場所（地図クリック可）</label>
+            <input type="text" id="formLocation" placeholder="例：下原田町 または 座標" required style="width: 180px;">
+        </div>
+        <div class="form-group">
+            <label for="formDesc">詳細内容</label>
+            <input type="text" id="formDesc" placeholder="状況など" style="width: 140px;">
+        </div>
+        <button type="submit" id="submitBtn" class="form-btn">＋ データを追加</button>
+        <button type="button" id="cancelBtn" class="cancel-btn" style="display: none;">キャンセル</button>
+    </form>
+
+    <div class="main-container">
+        <div class="side-panel">
+            <div class="panel-section">
+                <h3>獣種別 目撃統計</h3>
+                <div class="chart-container"><canvas id="animalChart"></canvas></div>
+            </div>
+            <div class="panel-section">
+                <h3>設置中の罠 種類別内訳</h3>
+                <div class="chart-container"><canvas id="trapTypeChart"></canvas></div>
+            </div>
+            <div class="data-list-section">
+                <h3>最近の報告・対策一覧</h3>
+                <ul class="data-list" id="infoList"></ul>
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
